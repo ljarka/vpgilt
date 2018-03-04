@@ -9,11 +9,9 @@ import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
-
 /**
  * Created by lukasz.jarka on 03/03/2018.
  */
-
 @Component(modules = arrayOf(AndroidSupportInjectionModule::class, ActivityBuildersModule::class, NetworkModule::class, ViewModelModule::class))
 @Singleton
 interface ApplicationComponent : AndroidInjector<VpgiltApplication> {

@@ -12,7 +12,6 @@ import kotlin.reflect.KClass
 /**
  * Created by lukasz.jarka on 04/03/2018.
  */
-
 @Module(includes = arrayOf(MainViewModelModule::class))
 abstract class ViewModelModule {
 

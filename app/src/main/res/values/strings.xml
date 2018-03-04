@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">vpgilt</string>
+    <string name="main_error_while_loading_data">Error while loading data</string>
 </resources>

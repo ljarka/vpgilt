@@ -8,7 +8,6 @@ import retrofit2.Retrofit
 /**
  * Created by lukasz.jarka on 04/03/2018.
  */
-
 @Module
 class MainViewModelModule {
 

@@ -6,11 +6,9 @@ import android.arch.lifecycle.ViewModelProvider
 import javax.inject.Provider
 import javax.inject.Singleton
 
-
 /**
  * Created by lukasz.jarka on 04/03/2018.
  */
-
 @Suppress("UNCHECKED_CAST")
 @Singleton
 class DaggerViewModelFactory @Inject constructor(private val creators: Map<Class<out ViewModel>,

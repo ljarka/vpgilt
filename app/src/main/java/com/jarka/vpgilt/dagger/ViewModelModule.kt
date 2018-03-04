@@ -1,6 +1,7 @@
 package com.jarka.vpgilt.dagger
 
 import android.arch.lifecycle.ViewModel
+import com.jarka.vpgilt.detail.DetailViewModel
 import com.jarka.vpgilt.main.MainViewModel
 import com.jarka.vpgilt.main.MainViewModelModule
 import dagger.Binds
@@ -19,6 +20,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MainViewModel::class)
     abstract fun bindMainViewModel(mainViewModel: MainViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DetailViewModel::class)
+    abstract fun bindDetailViewModel(detailViewModel: DetailViewModel): ViewModel
 }
 
 @MustBeDocumented

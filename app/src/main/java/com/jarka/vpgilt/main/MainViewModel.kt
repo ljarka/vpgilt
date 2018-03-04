@@ -13,7 +13,7 @@ import javax.inject.Inject
 /**
  * Created by lukasz.jarka on 04/03/2018.
  */
-class MainViewModel @Inject constructor(val activeSales: ActiveSalesService) : ViewModel() {
+class MainViewModel @Inject constructor(private val activeSales: ActiveSalesService) : ViewModel() {
 
     private val activeSalesSubject = BehaviorSubject.create<ActiveSalesResultUi>()
 
@@ -22,7 +22,7 @@ class MainViewModel @Inject constructor(val activeSales: ActiveSalesService) : V
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap { Observable.fromIterable(it.sales) }
-                .map { SaleUi(it.name, it.imageUrls.big.first().url, it.saleKey) }
+                .map { SaleUi(it.name, it.imageUrls.big.first().url, it.saleKey, it.products, it.description) }
                 .take(10)
                 .toList()
                 .toObservable()

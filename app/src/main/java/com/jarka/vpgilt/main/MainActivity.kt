@@ -4,12 +4,15 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearLayoutManager.VERTICAL
-import android.view.View
-import android.widget.ViewAnimator
+import android.util.Log
 import com.jarka.vpgilt.R
 import com.jarka.vpgilt.dagger.DaggerViewModelFactory
 import com.jarka.vpgilt.detail.DetailActivity
+import com.jarka.vpgilt.showChild
+import kotlinx.android.synthetic.main.activity_detail.viewAnimator
 import dagger.android.support.DaggerAppCompatActivity
+import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.Disposables
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -21,6 +24,7 @@ class MainActivity : DaggerAppCompatActivity(), OnSaleItemClickListener {
     lateinit var viewModelFactory: DaggerViewModelFactory
 
     private lateinit var mainViewModel: MainViewModel
+    private var activeSalesDisposable: Disposable = Disposables.empty()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +38,7 @@ class MainActivity : DaggerAppCompatActivity(), OnSaleItemClickListener {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this, VERTICAL, false)
 
-        mainViewModel.getActiveSales()
+        activeSalesDisposable = mainViewModel.getActiveSales()
                 .subscribe({
                     when (it) {
                         is InProgress -> {
@@ -46,17 +50,23 @@ class MainActivity : DaggerAppCompatActivity(), OnSaleItemClickListener {
                         }
                         is Error -> {
                             viewAnimator.showChild(error)
+                            Log.e(MainActivity.TAG, "", it.error)
                         }
                     }
                 })
 
     }
 
-    override fun onSaleItemClick(saleUi: SaleUi) {
-        startActivity(DetailActivity.createIntent(this, saleUi.image, saleUi.saleKey))
+    override fun onDestroy() {
+        super.onDestroy()
+        activeSalesDisposable.dispose()
     }
 
-    private fun ViewAnimator.showChild(child: View) {
-        displayedChild = indexOfChild(child)
+    override fun onSaleItemClick(saleUi: SaleUi) {
+        startActivity(DetailActivity.createIntent(this, saleUi))
+    }
+
+    companion object {
+        private const val TAG = "MainActivity"
     }
 }
